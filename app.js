@@ -1,7 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const { initializeSocket } = require('./socket'); // Adjust the path accordingly
+const { createProxyMiddleware } = require('http-proxy-middleware');
+const { initializeSocket } = require('./socket');
 const authController = require('./controllers/authController');
 const submissionController = require('./controllers/submissionController');
 
@@ -35,3 +36,8 @@ app.post('/api/attendees', (req, res) => {
   const newAttendee = new Submission(req.body);
   newAttendee.postSubmission(io, res);
 });
+
+// Add a proxy route for the React app
+app.use('/pino_front', createProxyMiddleware({ target: 'http://www.pino.sa:3001', changeOrigin: true }));
+
+module.exports = app;
