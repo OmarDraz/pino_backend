@@ -49,29 +49,29 @@ class Attendee {
     }
   }
 
-    async postAttendee(io, res) {
-      // Save the attendee to the database
-      const attendee = { ...this, startTime: new Date() };
-      await this.saveAttendeeToDatabase(attendee);
+    // async postAttendee(io, res) {
+    //   // Save the attendee to the database
+    //   const attendee = { ...this, startTime: new Date() };
+    //   await this.saveAttendeeToDatabase(attendee);
     
-      // Calculate previous attendees and average waiting time
-      const { previousattendees, averageWaitingTime, order } = await this.getAttendeeDetails(attendee);
+    //   // Calculate previous attendees and average waiting time
+    //   const { previousattendees, averageWaitingTime, order } = await this.getAttendeeDetails(attendee);
 
-      res.json({ averageWaitingTime, order });
+    //   res.json({ averageWaitingTime, order });
     
-      // Modify the attendee object to include additional information
-      const updatedAttendee = {
-        ...attendee,
-      };
+    //   // Modify the attendee object to include additional information
+    //   const updatedAttendee = {
+    //     ...attendee,
+    //   };
     
-      // Emit the new attendee along with additional information
-      if(this.branchId === '1'){
-        io.emit('newAttendee1', updatedAttendee);
-      } else if(this.branchId === '2'){
-        io.emit('newAttendee2', updatedAttendee);
-      }
-      console.log(this.branchId)
-    }
+    //   // Emit the new attendee along with additional information
+    //   if(this.branchId === '1'){
+    //     io.emit('newAttendee1', updatedAttendee);
+    //   } else if(this.branchId === '2'){
+    //     io.emit('newAttendee2', updatedAttendee);
+    //   }
+    //   console.log(this.branchId)
+    // }
     
 
     saveAttendeeToDatabase = async (attendee) => {

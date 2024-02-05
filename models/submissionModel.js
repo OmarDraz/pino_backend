@@ -1,13 +1,14 @@
 var db = require('../config/db')
 
 class Submission {
-  constructor({ id, name, phone_number, num_of_persons, seatPreference, branchId }) {
+  constructor({ id, name, phone_number, num_of_persons, seatPreference, branchId, sock_id }) {
     this.id = id;
     this.name = name;
     this.phone_number = phone_number;
     this.num_of_persons = num_of_persons;
     this.seatPreference = seatPreference;
     this.branchId = branchId
+    this.sock_id = sock_id
   }
 
   static async getSubmissionById(submissionId) {

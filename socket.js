@@ -24,6 +24,7 @@ function initializeSocket(server) {
 
     socket.on('associateSocketId', (socketId) => {
         io.emit('associateSocketId', socketId);
+        console.log(socketId, "ass")
     })
   });
 

@@ -9,7 +9,21 @@ const { authenticateAndAuthorize } = require('../auth');
 const router = express.Router();
 router.use(bodyParser.json());
 
+router.post('/attendee', (req, res) => {
+    try{
+  const io = require('../socket').getIo();
+  // Assuming you have the necessary data in the request body
+  const newAttendee = new Submission(req.body);
+  newAttendee.postSubmission(io, res);
+    } catch(error){
+        console.error('Error sending submissions:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+
 router.get('/',authenticateAndAuthorize, async (req, res) => {
+    
     try {
       // Get branch_id from the request body or query parameters
       const branchId = req.body.branch_id || req.query.branch_id;
@@ -22,6 +36,7 @@ router.get('/',authenticateAndAuthorize, async (req, res) => {
       // Fetch submissions with 'waiting' status and specific branch_id from the database
       const submissions = await Submission.getWaitingSubmissions(branchId);
       res.json(submissions);
+      console.log("Hellop")
     } catch (error) {
       console.error('Error fetching submissions:', error);
       res.status(500).json({ error: 'Internal Server Error' });

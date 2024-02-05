@@ -9,15 +9,16 @@ const submissionController = require('./controllers/submissionController');
 const app = express();
 const port = process.env.PORT || 3000;
 
+app.use(cors())
+
 // Create HTTP server
-const server = app.listen(port, '0.0.0.0', () => {
-  console.log('Server Listening');
+const server = app.listen(port, () => {
+  console.log('Server Listening', port);
 });
 
 // Initialize Socket.IO
 initializeSocket(server);
 
-app.use(cors());
 app.use(express.json());
 
 // Use express static folder
@@ -27,12 +28,7 @@ app.use(express.static('public'));
 app.use('/auth', authController);
 app.use('/submissions', submissionController);
 
-const Submission = require('./models/submissionModel');
-
-// Create an endpoint to save an attendee
-app.post('/api/attendees', (req, res) => {
-  const io = require('./socket').getIo();
-  // Assuming you have the necessary data in the request body
-  const newAttendee = new Submission(req.body);
-  newAttendee.postSubmission(io, res);
+app.get('/', function (req, res) {
+    console.log("/user request calle");
+    res.send("Hello from the root application URL");
 });
